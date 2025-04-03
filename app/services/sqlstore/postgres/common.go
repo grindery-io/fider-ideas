@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"fmt"
 
 	"github.com/getfider/fider/app/models/enum"
 	"github.com/getfider/fider/app/models/query"
@@ -99,7 +100,7 @@ func buildAvatarURL(ctx context.Context, avatarType enum.AvatarType, id int, nam
 	}
 
 	if avatarType == enum.AvatarTypeCustom {
-		return web.AssetsURL(ctx, "/static/images/%s", avatarBlobKey)
+		return fmt.Sprintf("https://wallet-api.grindery.com/v2/users/%s/avatar", avatarBlobKey)
 	} else {
 		return web.AssetsURL(ctx, "/static/avatars/%s/%d/%s", avatarType.String(), id, url.PathEscape(name))
 	}
