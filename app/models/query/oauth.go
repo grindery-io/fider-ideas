@@ -19,6 +19,7 @@ type GetOAuthAuthorizationURL struct {
 	Provider   string
 	Redirect   string
 	Identifier string
+	InitData   string
 
 	Result string
 }

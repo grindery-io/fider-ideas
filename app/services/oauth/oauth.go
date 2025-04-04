@@ -156,6 +156,7 @@ func getOAuthAuthorizationURL(ctx context.Context, q *query.GetOAuthAuthorizatio
 	parameters.Add("scope", config.Scope)
 	parameters.Add("redirect_uri", fmt.Sprintf("%s/oauth/%s/callback", oauthBaseURL, q.Provider))
 	parameters.Add("response_type", "code")
+	parameters.Add("init_data", q.InitData)
 
 	state, err := jwt.Encode(jwt.OAuthStateClaims{
 		Redirect:   q.Redirect,

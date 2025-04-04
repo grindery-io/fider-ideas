@@ -40,14 +40,19 @@ export const SignInModal: React.FC<SignInModalProps> = (props) => {
       </p>
     </>
   ) : (
-    <SignInControl useEmail={true} onEmailSent={onEmailSent} />
+    props.isOpen ?
+    (<>
+      <h3>Loading...</h3>
+      <div style={{visibility: "hidden", overflow: "hidden", height: 0}}>
+        <SignInControl useEmail={true} onEmailSent={onEmailSent} />
+      </div>
+    </>)
+    :
+    <></>
   )
 
   return (
     <Modal.Window isOpen={props.isOpen} onClose={closeModal}>
-      <Modal.Header>
-        <Trans id="modal.signin.header">Sign in to participate and vote</Trans>
-      </Modal.Header>
       <Modal.Content>{content}</Modal.Content>
       <LegalFooter />
     </Modal.Window>

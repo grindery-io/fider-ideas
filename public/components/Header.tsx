@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { SignInModal, TenantLogo, NotificationIndicator, UserMenu } from "@fider/components"
 import { useFider } from "@fider/hooks"
 import { HStack } from "./layout"
@@ -14,6 +14,12 @@ export const Header = () => {
   }
 
   const hideModal = () => setIsSignInModalOpen(false)
+
+  useEffect(() => {
+    if (!fider.session.isAuthenticated && location.hash.includes("tgWebAppData")) {
+      setIsSignInModalOpen(true)
+    }
+  }, [])
 
   return (
     <div id="c-header" className="bg-white">

@@ -239,6 +239,7 @@ func SignInByOAuth() web.HandlerFunc {
 
 		provider := c.Param("provider")
 		redirect := c.QueryParam("redirect")
+		initData := c.QueryParam("initData")
 
 		if redirect == "" {
 			redirect = c.BaseURL()
@@ -257,6 +258,7 @@ func SignInByOAuth() web.HandlerFunc {
 			Provider:   provider,
 			Redirect:   redirect,
 			Identifier: c.SessionID(),
+			InitData: initData,
 		}
 		if err := bus.Dispatch(c, authURL); err != nil {
 			return c.Failure(err)

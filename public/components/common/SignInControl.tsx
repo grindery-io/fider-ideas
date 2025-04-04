@@ -55,7 +55,7 @@ export const SignInControl: React.FunctionComponent<SignInControlProps> = (props
           <div className="c-signin-control__oauth mb-2">
             {fider.settings.oauth.map((o) => (
               <React.Fragment key={o.provider}>
-                <SocialSignInButton option={o} redirectTo={props.redirectTo} />
+                <SocialSignInButton option={o} redirectTo={props.redirectTo} enableMiniAppFastSignIn={true} />
               </React.Fragment>
             ))}
           </div>
