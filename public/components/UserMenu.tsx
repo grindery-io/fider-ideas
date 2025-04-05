@@ -6,6 +6,11 @@ import { Trans } from "@lingui/react/macro"
 export const UserMenu = () => {
   const fider = useFider()
 
+  if (fider.session.isAuthenticated && location.hash.includes("tgWebAppData")) {
+    sessionStorage.setItem("isInMiniApp", "1");
+  }
+  const isInMiniApp = !!sessionStorage.getItem("isInMiniApp");
+
   return (
     <div className="c-menu-user">
       <Dropdown position="left" renderHandle={<Avatar user={fider.session.user} />}>
@@ -26,9 +31,11 @@ export const UserMenu = () => {
             <Dropdown.Divider />
           </>
         )}
-        <Dropdown.ListItem href="/signout">
-          <Trans id="menu.signout">Sign out</Trans>
-        </Dropdown.ListItem>
+        {!isInMiniApp &&
+          <Dropdown.ListItem href="/signout">
+            <Trans id="menu.signout">Sign out</Trans>
+          </Dropdown.ListItem>
+        }
       </Dropdown>
     </div>
   )

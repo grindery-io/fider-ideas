@@ -171,6 +171,7 @@ export default class MySettingsPage extends React.Component<MySettingsPageProps,
 
               <Input label={i18n._("label.name", { message: "Name" })} field="name" value={this.state.name} maxLength={100} onChange={this.setName} />
 
+              <div style={{display: "none"}}>
               <Select
                 label={i18n._("label.avatar", { message: "Avatar" })}
                 field="avatarType"
@@ -208,6 +209,7 @@ export default class MySettingsPage extends React.Component<MySettingsPageProps,
                   </ImageUploader>
                 )}
               </Select>
+              </div>
 
               <NotificationSettings userSettings={this.props.userSettings} settingsChanged={this.setNotificationSettings} />
 
