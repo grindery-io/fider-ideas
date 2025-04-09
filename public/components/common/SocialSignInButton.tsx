@@ -17,11 +17,11 @@ interface SocialSignInButtonProps {
 
 export const SocialSignInButton = (props: SocialSignInButtonProps) => {
   const fider = useFider()
-  const redirectTo = props.redirectTo || window.location.href.replace(/\?rp=.*$/, '')
-  const href = props.option.url ? `${props.option.url}?redirect=${encodeURIComponent(redirectTo)}` : undefined
+  // const redirectTo = props.redirectTo || window.location.href.replace(/\?rp=.*$/, '')
+  const href = props.option.url ? `${props.option.url}?redirect=${encodeURIComponent(`${location.protocol}//${location.host}`)}` : undefined
 
   useLayoutEffect(() => {
-    if (!fider.session.isAuthenticated && props.enableMiniAppFastSignIn && href && props.option.displayName?.trim().toLowerCase() === "grindery") {
+    if (!fider.session.isAuthenticated && props.enableMiniAppFastSignIn && href && props.option.displayName?.trim().toLowerCase() === "grindery" && !/^https?:\/\/[^/]+\/oauth\//i.test(location.href)) {
       const url = new URL(href, location.href)
       if (location.hash.includes("tgWebAppData")) {
         const params = new URLSearchParams(location.hash.slice(1))
