@@ -1,6 +1,8 @@
 package webhook
 
 import (
+	"strings"
+
 	"github.com/getfider/fider/app/models/entity"
 	"github.com/getfider/fider/app/models/enum"
 )
@@ -16,6 +18,13 @@ func (p Props) SetUser(user *entity.User, keyPrefix string) Props {
 		p[keyPrefix+"_email"] = user.Email
 		p[keyPrefix+"_role"] = user.Role.String()
 		p[keyPrefix+"_avatar"] = user.AvatarURL
+
+		// Extract telegram id from fake grindery email
+		if strings.Split(user.Email, "@")[1] == "mail.wallet.grindery.com" {
+			p[keyPrefix+"_telegram_id"] = strings.Split(user.Email, "@")[0]
+		} else {
+			p[keyPrefix+"_telegram_id"] = ""
+		}
 	}
 	return p
 }

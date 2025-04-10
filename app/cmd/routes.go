@@ -125,6 +125,7 @@ func routes(r *web.Engine) *web.Engine {
 		ui.Get("/notifications/:id", handlers.ReadNotification())
 		ui.Get("/_api/notifications/unread", handlers.GetAllNotifications())
 		ui.Get("/change-email/verify", handlers.VerifyChangeEmailKey())
+		ui.Get("/feed", handlers.Feed())
 
 		ui.Delete("/_api/user", handlers.DeleteUser())
 		ui.Post("/_api/user/regenerate-apikey", handlers.RegenerateAPIKey())

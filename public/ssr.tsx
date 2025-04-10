@@ -35,6 +35,7 @@ const pages: { [key: string]: any } = {
   "SignUp/PendingActivation.page": require(`./pages/SignUp/PendingActivation.page`),
   "Legal/Legal.page": require(`./pages/Legal/Legal.page`),
   "DesignSystem/DesignSystem.page": require(`./pages/DesignSystem/DesignSystem.page`),
+  "Feed/Feed.page": require(`./pages/Feed/Feed.page`),
   "Error/Maintenance.page": require(`./pages/Error/Maintenance.page`),
   "Error/Error401.page": require(`./pages/Error/Error401.page`),
   "Error/Error403.page": require(`./pages/Error/Error403.page`),
