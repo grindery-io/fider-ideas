@@ -1,9 +1,12 @@
 package handlers
 
 import (
+	"strings"
+
 	"github.com/getfider/fider/app/models/cmd"
 	"github.com/getfider/fider/app/pkg/bus"
 	"github.com/getfider/fider/app/pkg/web"
+	"github.com/getfider/fider/app/services/walletapi"
 )
 
 // BlockUser is used to block an existing user from using Fider
@@ -37,5 +40,26 @@ func UnblockUser() web.HandlerFunc {
 		}
 
 		return c.Ok(web.Map{})
+	}
+}
+
+// GetUser gets user profile
+func GetUser() web.HandlerFunc {
+	return func(c *web.Context) error {
+		userEmail := c.User().Email
+		parts := strings.Split(userEmail, "@")
+		userTelegramID := parts[0]
+		userId := c.Param("id")
+
+		params := map[string]interface{}{
+			"userTelegramID": userId,
+		}
+
+		userData, err := walletapi.SendRequest("gw_getUser", params, userTelegramID)
+		if err != nil {
+			return c.Failure(err)
+		}
+
+		return c.Ok(userData)
 	}
 }

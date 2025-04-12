@@ -7,13 +7,13 @@ export const UserMenu = () => {
   const fider = useFider()
 
   if (fider.session.isAuthenticated && location.hash.includes("tgWebAppData")) {
-    sessionStorage.setItem("isInMiniApp", "1");
+    sessionStorage.setItem("isInMiniApp", "1")
   }
-  const isInMiniApp = !!sessionStorage.getItem("isInMiniApp");
+  const isInMiniApp = !!sessionStorage.getItem("isInMiniApp")
 
   return (
     <div className="c-menu-user">
-      <Dropdown position="left" renderHandle={<Avatar user={fider.session.user} />}>
+      <Dropdown position="left" renderHandle={<Avatar user={fider.session.user} preventClick />}>
         <div className="p-2 text-medium uppercase">{fider.session.user.name}</div>
         <Dropdown.ListItem href="/settings">
           <Trans id="menu.mysettings">My Settings</Trans>
@@ -31,11 +31,11 @@ export const UserMenu = () => {
             <Dropdown.Divider />
           </>
         )}
-        {!isInMiniApp &&
+        {!isInMiniApp && (
           <Dropdown.ListItem href="/signout">
             <Trans id="menu.signout">Sign out</Trans>
           </Dropdown.ListItem>
-        }
+        )}
       </Dropdown>
     </div>
   )

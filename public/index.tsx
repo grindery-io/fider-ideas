@@ -8,6 +8,9 @@ import { classSet, Fider, FiderContext, actions, activateI18N } from "@fider/ser
 import { I18n } from "@lingui/core"
 import { I18nProvider } from "@lingui/react"
 import { AsyncPage } from "./AsyncPages"
+import { UserSidebarProvider } from "./services/user-sidebar"
+import UserSidebar from "./components/UserSidebar"
+import { FeedProvider } from "./services/feed"
 
 const Loading = () => (
   <div className="page">
@@ -53,7 +56,12 @@ const bootstrapApp = (i18n: I18n) => {
             <FiderContext.Provider value={fider}>
               <DevBanner />
               <ReadOnlyNotice />
-              <Suspense fallback={<Loading />}>{React.createElement(component, fider.session.props)}</Suspense>
+              <FeedProvider>
+                <UserSidebarProvider>
+                  <UserSidebar />
+                  <Suspense fallback={<Loading />}>{React.createElement(component, fider.session.props)}</Suspense>
+                </UserSidebarProvider>
+              </FeedProvider>
             </FiderContext.Provider>
           </I18nProvider>
         </ErrorBoundary>

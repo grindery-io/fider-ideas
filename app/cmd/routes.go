@@ -127,12 +127,14 @@ func routes(r *web.Engine) *web.Engine {
 		ui.Get("/change-email/verify", handlers.VerifyChangeEmailKey())
 		ui.Get("/feed", handlers.Feed())
 
+		ui.Get("/_api/user/:id", handlers.GetUser())
 		ui.Delete("/_api/user", handlers.DeleteUser())
 		ui.Post("/_api/user/regenerate-apikey", handlers.RegenerateAPIKey())
 		ui.Post("/_api/user/settings", handlers.UpdateUserSettings())
 		ui.Post("/_api/user/change-email", handlers.ChangeUserEmail())
 		ui.Post("/_api/notifications/read-all", handlers.ReadAllNotifications())
 		ui.Get("/_api/notifications/unread/total", handlers.TotalUnreadNotifications())
+		ui.Get("/_api/feed/token", handlers.GetFeedToken())
 
 		// From this step, only Collaborators and Administrators are allowed
 		ui.Use(middlewares.IsAuthorized(enum.RoleCollaborator, enum.RoleAdministrator))
