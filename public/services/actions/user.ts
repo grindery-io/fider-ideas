@@ -25,3 +25,7 @@ export const deleteCurrentAccount = async (): Promise<Result> => {
 export const regenerateAPIKey = async (): Promise<Result<{ apiKey: string }>> => {
   return await http.post<{ apiKey: string }>("/_api/user/regenerate-apikey")
 }
+
+export const getUserProfile = async (userTelegramID: string, withStats?: boolean): Promise<Result<{ result: Record<string, any> }>> => {
+  return await http.get(`/_api/user/${userTelegramID}?withStats=${withStats ? "1" : "0"}`)
+}
