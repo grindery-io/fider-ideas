@@ -5,10 +5,8 @@ import { actions } from "."
 import { useFider } from "@fider/hooks"
 import { StreamApp } from "react-activity-feed"
 
-//const GETSTREAM_API_KEY = process.env.NODE_ENV === "production" ? "9xvwqtbzagsv" : "4qgse943tvvg"
-//const GETSTREAM_APP_ID = process.env.NODE_ENV === "production" ? "1319182" : "1328657"
-const GETSTREAM_API_KEY = "9xvwqtbzagsv"
-const GETSTREAM_APP_ID = "1319182"
+const GETSTREAM_API_KEY = process.env.NODE_ENV === "production" ? "9xvwqtbzagsv" : "4qgse943tvvg"
+const GETSTREAM_APP_ID = process.env.NODE_ENV === "production" ? "1319182" : "1328657"
 
 interface FeedContextType {
   token: string
