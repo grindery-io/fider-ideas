@@ -44,6 +44,9 @@ const CustomActivityHeader = (props: ActivityProps) => {
       {...props}
       // @ts-ignore
       activity={activity}
+      style={{
+        padding: "8px 16px",
+      }}
       onClickUser={
         user?.id
           ? async () => {

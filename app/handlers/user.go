@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"strings"
 
 	"github.com/getfider/fider/app/models/cmd"
@@ -51,6 +52,8 @@ func GetUser() web.HandlerFunc {
 		userTelegramID := parts[0]
 		userId := c.Param("id")
 
+		withStats := c.QueryParam("withStats")
+
 		params := map[string]interface{}{
 			"userTelegramID": userId,
 		}
@@ -58,6 +61,46 @@ func GetUser() web.HandlerFunc {
 		userData, err := walletapi.SendRequest("gw_getUser", params, userTelegramID)
 		if err != nil {
 			return c.Failure(err)
+		}
+
+		if withStats == "true" || withStats == "1" {
+
+			statParams := map[string]interface{}{
+				"userTelegramID": userId,
+			}
+
+			userStats, err := walletapi.SendRequest("gw_getUserStats", statParams, userTelegramID)
+			if err != nil {
+				log.Println("Error fetching user stats:", err)
+			} else {
+				if userData["result"] != nil {
+					if resultMap, ok := userData["result"].(map[string]interface{}); ok {
+						resultMap["userStats"] = userStats["result"]
+					}
+				}
+			}
+
+			isFollowing, err := walletapi.SendRequest("gw_isFollowingUser", statParams, userTelegramID)
+
+			if err != nil {
+				log.Println("Error fetching user following:", err)
+			} else {
+				if userData["result"] != nil {
+					if resultMap, ok := userData["result"].(map[string]interface{}); ok {
+						if isFollowing["result"] != nil {
+							if isFollowingMap, ok := isFollowing["result"].(map[string]interface{}); ok {
+								if isFollowingMap["isFollowing"] != nil {
+									resultMap["isFollowing"] = isFollowingMap["isFollowing"]
+								} else {
+									resultMap["isFollowing"] = false
+								}
+							}
+						} else {
+							resultMap["isFollowing"] = false
+						}
+					}
+				}
+			}
 		}
 
 		return c.Ok(userData)

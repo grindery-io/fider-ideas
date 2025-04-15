@@ -36,7 +36,7 @@ const UserSidebarProvider = ({ children }: { children: React.ReactNode }) => {
     const getUser = async (id: string) => {
       setLoading(true)
       try {
-        const res = await actions.getUserProfile(id)
+        const res = await actions.getUserProfile(id, true)
         if (res.ok) {
           setUser(res.data.result)
         } else {

@@ -1,0 +1,10 @@
+.raf-activity__link,
+.raf-card__url {
+	color: var(--primary-color, #2d57ed) !important;
+}
+.raf-button--info {
+	background-color: var(--primary-color, #2d57ed) !important;
+}
+.raf-load-more-button button {
+	width: calc(100% - 6px) !important;
+}
