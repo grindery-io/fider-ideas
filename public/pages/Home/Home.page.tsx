@@ -12,6 +12,7 @@ import { VStack } from "@fider/components/layout"
 
 import { i18n } from "@lingui/core"
 import { Trans } from "@lingui/react/macro"
+import WebChat from "./components/WebChat"
 
 export interface HomePageProps {
   posts: Post[]
@@ -71,14 +72,27 @@ What can we do better? This is the place for you to vote, discuss and share idea
     return false
   }
 
+  const email = fider.session.isAuthenticated ? fider.session.user.email || "" : ""
+  const userTelegramID = email.includes("mail.wallet.grindery.com") ? email.split("@")[0] : null
+
   return (
     <>
       <Header />
       <div id="p-home" className="page container">
         <div className="p-home__welcome-col">
           <VStack spacing={2} className="p-4">
-            <Markdown text={fider.session.tenant.welcomeMessage || defaultWelcomeMessage} style="full" />
-            <PostInput placeholder={fider.session.tenant.invitation || defaultInvitation} onTitleChanged={setTitle} />
+            {fider.session.isAuthenticated ? (
+              userTelegramID ? (
+                <WebChat userTelegramID={userTelegramID} />
+              ) : (
+                <PostInput placeholder={fider.session.tenant.invitation || defaultInvitation} onTitleChanged={setTitle} />
+              )
+            ) : (
+              <>
+                <Markdown text={fider.session.tenant.welcomeMessage || defaultWelcomeMessage} style="full" />
+                {!fider.session.isAuthenticated && <PostInput placeholder={fider.session.tenant.invitation || defaultInvitation} onTitleChanged={setTitle} />}
+              </>
+            )}
           </VStack>
           <PoweredByFider slot="home-input" className="sm:hidden md:hidden lg:block mt-3" />
         </div>

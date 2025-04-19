@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { actions } from "."
+import { useFider } from "@fider/hooks"
+import { SignInModal } from "@fider/components"
 
 type SidebarUser = Record<string, any> | null
 
@@ -22,9 +24,11 @@ const UserSidebarContext = React.createContext<UserSidebarContextType>({
 })
 
 const UserSidebarProvider = ({ children }: { children: React.ReactNode }) => {
+  const fider = useFider()
   const [userTelegramID, setUserTelegramID] = useState<string | null>(null)
   const [user, setUser] = useState<SidebarUser>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false)
 
   const open = Boolean(userTelegramID)
 
@@ -51,12 +55,16 @@ const UserSidebarProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
     if (userTelegramID) {
-      getUser(userTelegramID)
+      if (!fider.session.isAuthenticated) {
+        setIsSignInModalOpen(true)
+      } else {
+        getUser(userTelegramID)
+      }
     } else {
       setLoading(false)
       setUser(null)
     }
-  }, [userTelegramID])
+  }, [userTelegramID, fider.session.isAuthenticated])
 
   return (
     <UserSidebarContext.Provider
@@ -69,6 +77,12 @@ const UserSidebarProvider = ({ children }: { children: React.ReactNode }) => {
         close,
       }}
     >
+      <SignInModal
+        isOpen={isSignInModalOpen}
+        onClose={() => {
+          setIsSignInModalOpen(false)
+        }}
+      />
       {children}
     </UserSidebarContext.Provider>
   )

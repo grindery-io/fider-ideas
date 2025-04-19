@@ -17,7 +17,7 @@ const FeedContext = React.createContext<FeedContextType>({
 })
 
 const FeedProvider = ({ children }: { children: React.ReactNode }) => {
-  const [token, setToken] = useState<string>("")
+  const [token, setToken] = useState<string | null>(null)
   const fider = useFider()
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const FeedProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const res = await actions.getFeedToken()
         if (res.ok) {
-          setToken(res.data.feedToken)
+          setToken(res.data.feedToken || "")
         } else {
           console.error("Error fetching feed token:", res.error)
           setToken("")
@@ -37,22 +37,28 @@ const FeedProvider = ({ children }: { children: React.ReactNode }) => {
     }
     if (fider.session.isAuthenticated) {
       getFeedToken()
+    } else {
+      setToken("")
     }
   }, [fider.session.isAuthenticated])
 
   return (
     <FeedContext.Provider
       value={{
-        token,
+        token: token || "",
       }}
     >
-      {fider.session.isAuthenticated && token ? (
-        <StreamApp apiKey={GETSTREAM_API_KEY} appId={GETSTREAM_APP_ID} token={token}>
-          {children}
-        </StreamApp>
-      ) : (
-        <>{children}</>
-      )}
+      {typeof token === "string" ? (
+        <>
+          {fider.session.isAuthenticated && token ? (
+            <StreamApp apiKey={GETSTREAM_API_KEY} appId={GETSTREAM_APP_ID} token={token}>
+              {children}
+            </StreamApp>
+          ) : (
+            <>{children}</>
+          )}
+        </>
+      ) : null}
     </FeedContext.Provider>
   )
 }
