@@ -44,12 +44,14 @@ const WebChat = ({ userTelegramID }: { userTelegramID: string }) => {
 
       // @ts-ignore
       window.onChatbotLoaded = (chatbot: ChatbotClientApi) => {
-        chatbot.updateSettings({})
         var chatContainer = document.getElementById("chat-container")
         var style = document.createElement("style")
         style.innerHTML = `
           .fxoc-h-full { max-height: 70vh; height: 70vh; min-height: 500px;}
-		  .fxoc-shadow-2xl { box-shadow: 0 0 0 0; }
+		      .fxoc-shadow-2xl { box-shadow: 0 0 0 0; }
+          .chatbot-root > div > div > div:first-child button {
+            display: none !important;
+          }
         `
         chatContainer?.shadowRoot?.appendChild(style)
       }
