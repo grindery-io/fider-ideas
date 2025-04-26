@@ -44,6 +44,9 @@ const WebChat = ({ userTelegramID }: { userTelegramID: string }) => {
 
       // @ts-ignore
       window.onChatbotLoaded = (chatbot: ChatbotClientApi) => {
+        chatbot.updateMetadata({
+          userTelegramID,
+        })
         var chatContainer = document.getElementById("chat-container")
         var style = document.createElement("style")
         style.innerHTML = `
